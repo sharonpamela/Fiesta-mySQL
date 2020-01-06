@@ -1,0 +1,26 @@
+.inventory_container {
+    /* display: grid; */
+    /* grid-template-columns: 1fr; */
+    /* grid-template-rows: repeat(auto-fill, 100px); */
+
+}
+
+.inventory_entry {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* .inventory_entry_product {
+    grid-column-start: 1;
+}
+
+.inventory_entry_store {
+    grid-column-start: 2;
+}
+
+.inventory_entry_qty {
+    grid-column-start: 3;
+} */

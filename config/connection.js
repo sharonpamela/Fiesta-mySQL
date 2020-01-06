@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     port: 3306,
     user: 'root',
     password: 'nutanix/4u',
-    database: 'blogster_db'
+    database: 'inventoryManagement'
 });
 
 module.exports = connection;

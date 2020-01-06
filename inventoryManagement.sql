@@ -15,7 +15,7 @@ CREATE TABLE stores (
 CREATE TABLE products (
 	id INT AUTO_INCREMENT,
     product_name VARCHAR(255) NOT NULL,
-    product_price DECIMAL (4,2),
+    product_price DECIMAL (4,2) NULL,
     product_image_url TEXT NOT NULL,
     PRIMARY KEY(id)
 ) ENGINE=INNODB;
@@ -32,15 +32,18 @@ CREATE TABLE inventory (
     FOREIGN KEY (store_id) REFERENCES stores(id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
 
-create unique index prod_store_id on inventory(product_id, store_id);
-ALTER TABLE inventory drop index prod_store_id;
-DELETE FROM inventory WHERE store_id=1;
-
-
 SELECT * FROM products;
+SELECT * FROM stores;
 
-ALTER TABLE products MODIFY product_price DECIMAL (4,2);
-ALTER TABLE products MODIFY product_image_url TEXT NOT NULL;
+-- ALTER TABLE products MODIFY product_price DECIMAL (4,2) NULL;
+-- ALTER TABLE products MODIFY product_image_url TEXT NOT NULL;
+
+
+-- create unique index prod_store_id on inventory(product_id, store_id);
+-- ALTER TABLE inventory drop index prod_store_id;
+-- DELETE FROM inventory WHERE store_id=1;
+
+
 
 
 -- CREATE TABLE product (

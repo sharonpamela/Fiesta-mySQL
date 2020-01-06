@@ -57,3 +57,7 @@ INSERT INTO inventory ( store_id, product_id, quantity) VALUES (4, 7, 100);
 INSERT INTO inventory ( store_id, product_id, quantity) VALUES (4, 8, 100);
 INSERT INTO inventory ( store_id, product_id, quantity) VALUES (4, 9, 100);
 INSERT INTO inventory ( store_id, product_id, quantity) VALUES (4, 10, 100);
+
+SELECT * FROM products;
+SELECT * FROM stores;
+SELECT * FROM inventory;

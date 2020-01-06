@@ -7,6 +7,7 @@ import Nav from './components/Nav';
 import Dashboard from './components/Dashboard';
 import Stores from './components/Stores';
 import Products from './components/Products';
+import Inventory from './components/Inventory';
 
 import axios from 'axios';
 
@@ -16,7 +17,8 @@ class App extends Component {
     super();
     this.state = {
       stores: [],
-      products: []
+      products: [],
+      inventory: []
     };
     // this.fetchStores = this.fetchStores.bind(this);
   }
@@ -38,6 +40,16 @@ class App extends Component {
       .catch(e => {
         console.log(e);
       });
+
+
+    axios.get('/api/inventory')
+      .then(response => {
+        this.setState({ inventory: response.data });
+        console.log(this.state);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   render() {
@@ -53,6 +65,7 @@ class App extends Component {
           )} />
           <Route exact path='/stores' render={() => <Stores stores={this.state.stores} />} />
           <Route exact path='/products' render={() => <Products products={this.state.products} />} />
+          <Route exact path='/inventory' render={() => <Inventory inventory={this.state.inventory} />} />
         </Switch>
       </Router>
     );

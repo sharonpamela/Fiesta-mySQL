@@ -21,18 +21,18 @@ module.exports = {
             res.send(response); 
         });
     },
-    // getStore: (req, res) => {
-    //     const { storeId } = req.params;
-    //     const query = `SELECT * FROM blogs WHERE ?`;
-    //     connection.query(query, {id: blogId}, (err, blogs) => {
-    //         if(err) {
-    //             return res.status(404).send(err);
-    //         }
-    //         const blog = blogs[0];
-    //         res.json(blog);
-    //     });
-    // }
-    //,
+    getStore: (req, res) => {
+        const { storeId } = req.params;
+        const query = `SELECT * FROM blogs WHERE ?`;
+        connection.query(query, {id: blogId}, (err, blogs) => {
+            if(err) {
+                return res.status(404).send(err);
+            }
+            const blog = blogs[0];
+            res.json(blog);
+        });
+    }
+    ,
     // deleteStore: (req, res) => {
     //     const { blogId } = req.params;
     //     const query = `DELETE FROM blogs WHERE ?`;
