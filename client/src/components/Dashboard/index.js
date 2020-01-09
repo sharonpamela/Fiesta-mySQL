@@ -8,26 +8,28 @@ import inventoryimg from './../../img/inventory.png';
 class Dashboard extends Component {
     render() {
         return (
-            <div className="options">
-                <Link to='/stores'>
-                    <div className="card">
-                        <p>Stores</p>
-                        <img className="icon" alt="stores icon" src={storeimg} />
-                    </div>
-                </Link>
+            <div className="dash_wrapper">
+                <div className="options">
+                    <Link to='/stores'>
+                        <div className="card">
+                            <p>Stores</p>
+                            <img className="icon" alt="stores icon" src={storeimg} />
+                        </div>
+                    </Link>
 
-                <Link to='/products'>
-                    <div className="card">
-                        <p>Products</p>
-                        <img className="icon" alt="product icon" src={prodimg} />
-                    </div>
-                </Link>
-                <Link to='/inventory'>
-                    <div className="card">
-                        <p>Inventory</p>
-                        <img className="icon" alt="inventory icon" src={inventoryimg} />
-                    </div>
-                </Link>
+                    <Link to='/products'>
+                        <div className="card">
+                            <p>Products</p>
+                            <img className="icon" alt="product icon" src={prodimg} />
+                        </div>
+                    </Link>
+                    <Link to='/inventory'>
+                        <div className="card">
+                            <p>Inventory</p>
+                            <img className="icon" alt="inventory icon" src={inventoryimg} />
+                        </div>
+                    </Link>
+                </div>
             </div>
         )
     }

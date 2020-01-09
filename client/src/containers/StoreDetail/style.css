@@ -3,13 +3,13 @@
     margin-right:5%;
 }
 
-.inventory_container {
+.store_container {
     display: flex;
     flex-direction: column;
     margin-top:3%;
  }
 
-.inventory_row_header {
+ .store_row_header {
     width: 100%;
     grid-column-start: 1;
     grid-column-end: 5;
@@ -18,7 +18,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.inventory_row {
+.store_row {
     width: 100%;
     grid-column-start: 1;
     grid-column-end: 5;
@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-.inventory_col {
+.store_col {
     width:230px;
     display: flex;
     justify-content: space-between;

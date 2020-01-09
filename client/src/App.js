@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+// import containers
+import StoreDetail from './containers/StoreDetail';
+
 // import Components
-import Header from './components/Header';
 import Nav from './components/Nav';
 import Dashboard from './components/Dashboard';
 import Stores from './components/Stores';
@@ -57,15 +59,12 @@ class App extends Component {
       <Router>
         <Nav />
         <Switch>
-          <Route exact path='/' render={() => (
-            <div>
-              <Header />
-              <Dashboard />
-            </div>
-          )} />
+          <Route exact path='/' component={Dashboard} />
           <Route exact path='/stores' render={() => <Stores stores={this.state.stores} />} />
+          <Route exact path='/stores/:id' component={StoreDetail}/>
           <Route exact path='/products' render={() => <Products products={this.state.products} />} />
           <Route exact path='/inventory' render={() => <Inventory inventory={this.state.inventory} />} />
+          
         </Switch>
       </Router>
     );

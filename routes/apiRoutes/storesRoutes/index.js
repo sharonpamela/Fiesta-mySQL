@@ -3,17 +3,17 @@ const storesController = require('./../../../controllers/storesController');
 
 // /api/stores
 router.route('/')
-    .get(storesController.getStores)
-    .post(storesController.createStore)
+    .get(storesController.getStores) // get all the stores' information
+    .post(storesController.createStore) //create a new store entry
 
-// // /api/stores
-// router.route('/:storeId')
-//     .get(storesController.getStore)
-//     .post(storesController.addProduct)
-//     .delete(storesController.deleteStore)
+// /api/stores
+router.route('/:storeId')
+    .delete(storesController.deleteStore) // delete a particular store
+    .get(storesController.getStore) // get all the products under a particular store
 
-// // /api/stores/products/:productId
-// router.route('/comments/:storeId')
-//     .get(storesController.getStoresProducts);
+// /api/stores/products/
+router.route('/products/:storeId')
+    .post(storesController.addStoreProduct) // add a product to a particular store
+    .delete(storesController.deleteStoreProduct) // delete a product from a particular store
 
 module.exports = router;
