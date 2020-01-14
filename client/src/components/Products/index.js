@@ -13,12 +13,6 @@ class Products extends Component {
     render() {
         let products =
             this.props.products.map(product => (
-                // <div key={product.id}>
-                //     <img src={product.product_image_url} crossOrigin="true" alt={product.product_name} className="product_img prod_col" />
-                //     <Link to={`/product/${product.id}`}>
-                //         {product.product_name} - ${product.product_price}
-                //     </Link>
-                // </div>
                 <div key={product.id} className="prod_row">
                     
                     <div className="prod_col">
@@ -39,9 +33,7 @@ class Products extends Component {
                     </div>
 
                     <div className="prod_col" id="action_btn_block_prod">
-                        {/* <Link to={`/stores/${store.id}`}><button className="btn btn-outline-primary action_btn_store">Summit Changes</button></Link> */}
                         <div id="update_product"><button onClick={this.handleUpdate} className="btn btn-outline-primary">Update</button></div>
-
                     </div>
                 </div>
             ));

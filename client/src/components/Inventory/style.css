@@ -20,12 +20,17 @@
 
 .inventory_row {
     width: 100%;
+    height:110px;
     grid-column-start: 1;
     grid-column-end: 5;
     grid-row-start: 1;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
+}
+
+.inventory_row:hover {
+    background-color: lightgray;
 }
 
 .inventory_col {

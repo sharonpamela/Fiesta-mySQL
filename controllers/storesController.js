@@ -4,7 +4,7 @@ module.exports = {
     getStores: (req, res) => {
         const query = `SELECT * FROM stores;`;
         connection.query(query, (err, stores) => {
-            if(err) {
+            if (err) {
                 console.log(stores)
                 return res.status(404).send(err);
             }
@@ -12,28 +12,57 @@ module.exports = {
         });
     },
     createStore: (req, res) => {
-        const { store } = req.body;
-        const query = `INSERT INTO stores (store) VALUES(?)`;            
-        connection.query(query, store, (err, response) => {
-            if(err) {
+        console.log(req.body)
+        let storeName = req.body.store_name;
+        let storeCity = req.body.store_city;
+        let storeState = req.body.store_state;
+
+        const query = `INSERT INTO stores (store_name,store_city,store_state) VALUES(?,?,?)`;
+        const values = [storeName, storeCity, storeState];
+
+        // connection.query(query, [storeName, storeCity, storeState], (err, response) => {
+        connection.query(query, values, (err, response) => {
+            if (err) {
                 return res.status(403).send(err);
             }
-            res.send(response); 
+            res.send(response);
+        });
+    },
+    getStore: (req, res) => {
+        const { storeId } = req.params;
+        const query = `SELECT * FROM stores WHERE ?`;
+        connection.query(query, { id: storeId }, (err, result) => {
+            if (err) {
+                return res.status(404).send(err);
+            }
+            console.log(result)
+            res.json(result);
         });
     },
     deleteStore: (req, res) => {
-        const { blogId } = req.params;
-        const query = `DELETE FROM blogs WHERE ?`;
-        connection.query(query, { id: blogId }, (err, result) => {
-            if(err) {
+        const { storeId } = req.params;
+        const query = `DELETE FROM stores WHERE ?`;
+        connection.query(query, { id: storeId }, (err, result) => {
+            if (err) {
                 return res.status(404).send(err);
             }
             res.json(result);
         });
     },
-    getStore: (req, res) => {
+    getStoreProducts: (req, res) => {
+        // console.log(req.params);
         const { storeId } = req.params;
-       
+        // const query = `SELECT 
+        // a.store_id,
+        // a.id inventory_id,
+        // b.product_price,
+        // b.product_name product_name, 
+        // c.store_name store_name, 
+        // quantity 
+        // FROM inventory a 
+        // JOIN products b 
+        // JOIN stores c 
+        // ON a.product_id = b.id && a.store_id = c.id WHERE (?);`
         const query = `SELECT 
         a.store_id,
         a.id inventory_id,
@@ -44,50 +73,37 @@ module.exports = {
         FROM inventory a 
         JOIN products b 
         JOIN stores c 
-        ON a.product_id = b.id && a.store_id = c.id WHERE (?);`
-    
-        connection.query(query, {store_id: storeId}, (err, product) => {
-            if(err) {
+        ON a.product_id = b.id && a.store_id = c.id
+        where (?)`
+
+        connection.query(query, { store_id: storeId }, (err, products) => {
+            if (err) {
                 return res.status(404).send(err);
             }
-            res.json(product);
+            res.json(products);
         });
     },
-    addStoreProduct: (req, res) =>  {
+    addStoreProduct: (req, res) => {
         const { blogId } = req.params;
         const { comment } = req.body;
         const query = `INSERT INTO comments(comment, blog_id) VALUES(?,?);`
         connection.query(query, [comment, blogId], (err, comments) => {
-            if(err){
+            if (err) {
                 console.log(err);
-                return res.status(403).send(err);
-            }            
-            res.json(comments);
-        });
-    },
-    deleteStoreProduct: (req, res) =>  {
-        const { blogId } = req.params;
-        const { comment } = req.body;
-        const query = `INSERT INTO comments(comment, blog_id) VALUES(?,?);`
-        connection.query(query, [comment, blogId], (err, comments) => {
-            if(err){
-                console.log(err);
-                return res.status(403).send(err);
-            }            
-            res.json(comments);
-        });
-    },
-    getStoreProducts: (req, res) => {
-        const { blogId } = req.params;
-        let query = `SELECT blogs.id as blogId, blogs.blog, comments.id, comment FROM comments `;
-        query += `INNER JOIN blogs `;
-        query += `ON comments.blog_id = blogs.id `;
-        query += `WHERE blog_id = ?`;
-        connection.query(query, parseInt(blogId), (err, comments) => {
-            if(err) {
                 return res.status(403).send(err);
             }
-            console.log(comments);
+            res.json(comments);
+        });
+    },
+    deleteStoreProduct: (req, res) => {
+        const { blogId } = req.params;
+        const { comment } = req.body;
+        const query = `INSERT INTO comments(comment, blog_id) VALUES(?,?);`
+        connection.query(query, [comment, blogId], (err, comments) => {
+            if (err) {
+                console.log(err);
+                return res.status(403).send(err);
+            }
             res.json(comments);
         });
     }

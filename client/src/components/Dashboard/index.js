@@ -16,7 +16,6 @@ class Dashboard extends Component {
                             <img className="icon" alt="stores icon" src={storeimg} />
                         </div>
                     </Link>
-
                     <Link to='/products'>
                         <div className="card">
                             <p>Products</p>
