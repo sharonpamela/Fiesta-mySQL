@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ViewStoreDetails from './containers/ViewStoreDetails';
 import AddNewStore from './containers/AddNewStore';
 import AddNewStoreProduct from './containers/AddNewStoreProduct';
+import UpdateInventoryProduct from './containers/UpdateInventoryProduct';
 
 // import Components
 import Nav from './components/Nav';
@@ -45,7 +46,6 @@ class App extends Component {
         console.log(e);
       });
 
-
     axios.get('/api/inventory')
       .then(response => {
         this.setState({ inventory: response.data });
@@ -85,6 +85,7 @@ class App extends Component {
           <Route exact path='/stores/products/:store_id' component={ViewStoreDetails} />
           <Route exact path='/products' render={() => <Products products={this.state.products} />} />
           <Route exact path='/products/add/:store_name/:store_id' component={AddNewStoreProduct} />
+          <Route exact path='/inventory/:inventory_id' component={UpdateInventoryProduct} />
           <Route exact path='/inventory' render={() => <Inventory inventory={this.state.inventory} />} />
         </Switch>
       </Router>

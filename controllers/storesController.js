@@ -66,7 +66,8 @@ module.exports = {
         const query = `SELECT 
         a.store_id,
         a.id inventory_id,
-        b.product_price,
+        a.local_price,
+        a.comment,
         b.product_name product_name, 
         c.store_name store_name, 
         quantity 
@@ -84,15 +85,20 @@ module.exports = {
         });
     },
     addStoreProduct: (req, res) => {
-        const { blogId } = req.params;
-        const { comment } = req.body;
-        const query = `INSERT INTO comments(comment, blog_id) VALUES(?,?);`
-        connection.query(query, [comment, blogId], (err, comments) => {
+
+        const { store_id } = req.body;
+        const { product_name } = req.body;
+        const product_price = parseFloat(req.body.product_price);
+        const { product_img_url } = req.body;
+        const { product_comment } = req.body;
+        const query = `INSERT INTO products (product_name, product_price, product_image_url, product_comment) VALUES(?, ?, ?, ?);`
+        console.log(product_name, product_price, product_img_url, product_comment);
+        connection.query(query, [product_name, product_price, product_img_url, product_comment], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.status(403).send(err);
             }
-            res.json(comments);
+            res.json(result);
         });
     },
     deleteStoreProduct: (req, res) => {

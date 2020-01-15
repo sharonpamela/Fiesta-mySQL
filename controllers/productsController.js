@@ -21,8 +21,8 @@ module.exports = {
             res.send(response); 
         });
     }
-    //,
-    // getStore: (req, res) => {
+    // ,
+    // getProduct: (req, res) => {
     //     const { storeId } = req.params;
     //     const query = `SELECT * FROM blogs WHERE ?`;
     //     connection.query(query, {id: blogId}, (err, blogs) => {

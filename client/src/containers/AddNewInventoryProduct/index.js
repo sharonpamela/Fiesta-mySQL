@@ -8,14 +8,12 @@ class AddNewStoreProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            all_products: [],
-            current_inventory: [],
             store_name: '',
             store_id: '',
-            product_id: '',
             product_name: '',
             product_price: '',
             product_qty: 100,
+            product_img_url: '',
             product_comment: ''
         }
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -27,22 +25,6 @@ class AddNewStoreProduct extends Component {
         const { store_name } = this.props.match.params;
         const { store_id } = this.props.match.params;
         this.setState({ store_name: store_name, store_id: store_id })
-
-        axios.get('/api/products')
-            .then(response => {
-                this.setState({ all_products: response.data });
-            })
-            .catch(e => {
-                console.log(e);
-            });
-
-        axios.get('/api/inventory')
-            .then(response => {
-                this.setState({ current_inventory: response.data });
-            })
-            .catch(e => {
-                console.log(e);
-            });
     }
 
     handleInputChange(e) {
@@ -75,18 +57,18 @@ class AddNewStoreProduct extends Component {
         event.preventDefault();
 
         let store_id = this.state.store_id;
-        let product_id = this.state.product_id;
         let store_name = this.state.store_name;
-        let products = this.state.all_products;
-        // let product_name = this.state.product_name;
+        let product_name = this.state.product_name;
         let product_price = this.state.product_price;
         let product_qty = this.state.product_qty;
         let product_img_url = this.state.product_img_url;
         let product_comment = this.state.product_comment;
 
+        let product_insert_response = '';
         let inventory_insert_response = '';
+        var product_insert_id = '';
 
-        if (product_id === '') {
+        if (product_name === '') {
             swal("Oops!", "Product Name is a required field.", "error");
         } else if (product_price === '') {
             swal("Oops!", "Product Price is a required field.", "error");
@@ -98,12 +80,23 @@ class AddNewStoreProduct extends Component {
             swal("Oops!", "Product Image URL is a required field.", "error");
         }
 
-        if (product_id !== '' && product_price !== '' && this.isValidFloat(product_price) === true && product_qty !== '') {
+        if (product_name !== '' && product_price !== '' && this.isValidFloat(product_price) === true && product_qty !== '') {
+           
+            try {
+                 // add the new product to the products table
+                product_insert_response = await axios.post(`http://localhost:3001/api/stores/products/${store_id}`, { product_name: product_name, product_price: product_price, product_img_url: product_img_url, product_comment: product_comment }, { headers: { 'Accept': 'application/json' } });
+                if (product_insert_response.status === 200) {
+                    product_insert_id = product_insert_response.data.insertId;
+                }
+            } catch (e) {
+                console.log(e);
+                swal("Oops!", "Something went wrong adding this product.", "error"); // adding product to inventory depends on a successful product creation first
+            }
 
             try {
                 // add the new product to the inventory table and associate it to the store
-                inventory_insert_response = await axios.post(`http://localhost:3001/api/inventory`, { product_id: product_id, store_id: store_id, quantity: product_qty, local_price: product_price, comment: product_comment }, { headers: { 'Accept': 'application/json' } });
-
+                inventory_insert_response = await axios.post(`http://localhost:3001/api/inventory`, { product_id: product_insert_id, store_id: store_id, quantity: product_qty }, { headers: { 'Accept': 'application/json' } });
+                console.log(inventory_insert_response)
                 if (inventory_insert_response.status === 200) {
                     swal("Success!", `A new product has been added to store ${store_name}!`, "info")
                         .then((value) => {
@@ -116,54 +109,27 @@ class AddNewStoreProduct extends Component {
         }
     }
 
-    get_prods_not_in_store() {
-        // this function makes a list of product ids that are not part of the current store in question
-        let inventory = this.state.current_inventory
-        .filter(line => parseInt(line.store_id) === parseInt(this.state.store_id)) // return list of all prods belonging to this store_id
-        .map(entry => entry.product_id); // return list of list with all revelant prod ids
-
-        let products = this.state.all_products.map(entry => entry.id);
-        
-        let list_of_products_not_in_store = [];
-
-        // for every product id, look for that (product id [associated to] store id) and if associacion exist, don't add to final list
-        for (let prod in products) {
-            if (!inventory.includes(products[prod])){
-                list_of_products_not_in_store.push(products[prod]);
-            }
-        }
-        return list_of_products_not_in_store;
-    }
     render() {
-
-        // make a list of all the product_ids not associated to this store
-        let list_of_products_not_in_store = this.get_prods_not_in_store();
-        
-        // make a dropdown Menu with all of the products available products from the Products DB (BUT NOT YET ASSOCIATED TO THIS STORE)
-        let select_products =
-            this.state.all_products
-            .filter( product => (list_of_products_not_in_store.includes( product.id )))
-            .map ( prod => <option key={prod.id} value={prod.id}>{prod.product_name}</option> );
         return (
             <div className="wrapper">
                 <form className="container-fluid" encType="multipart/form-data">
-                    <h2 className="header">Add New Product to Store from Global Inventory</h2>
+                    <h2 className="header">Add New Product to Store Page</h2>
                     <h3>Store Name: {this.state.store_name}</h3>
                     <div className="add_row">
-                        <label>Product Name (*): </label>
-                        <select
-                            onChange={(e) => this.handleSelectChange(e)}
-                            name="product_id"
+                        <label>Product Name  (*): </label>
+                        <input
+                            name={"product_name"}
+                            type="text"
+                            id="product_name"
                             className="form-control"
-                            id="product_id"
+
+                            onChange={(e) => this.handleInputChange(e)}
+                            value={this.state.product_name}
                             required
-                        >
-                            <option value="">-- Select --</option>
-                            {select_products}
-                        </select>
+                        />
                     </div>
                     <div className="add_row">
-                        <label>Local Product Price (*):</label>
+                        <label>Product Price  (*):</label>
                         <input
                             type="text"
                             id="product_price"
@@ -175,7 +141,7 @@ class AddNewStoreProduct extends Component {
                         />
                     </div>
                     <div className="add_row">
-                        <label>Initial product qty at this store (*):</label>
+                        <label>Product Qty Across All Stores (*):</label>
                         <input
                             type="text"
                             id="product_qty"
@@ -187,7 +153,18 @@ class AddNewStoreProduct extends Component {
                         />
                     </div>
                     <div className="add_row">
-                        <label>Initial Product Comments (optional):</label>
+                        <label>Product Image URL (optional):</label>
+                        <input
+                            type="text"
+                            id="product_img_url"
+                            className="form-control"
+                            name="product_img_url"
+                            onChange={(e) => this.handleInputChange(e)}
+                            value={this.state.product_img_url}
+                        />
+                    </div>
+                    <div className="add_row">
+                        <label>Product Comments (optional):</label>
                         <input
                             type="text"
                             id="product_comment"
