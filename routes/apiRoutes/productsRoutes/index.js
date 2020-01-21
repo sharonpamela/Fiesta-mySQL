@@ -7,9 +7,9 @@ router.route('/')
     .post(productsController.createProduct)
 
 // /api/products
-// router.route('/:storeId')
-//     .get(storesController.getStore)
-//     .post(storesController.addProduct)
-//     .delete(storesController.deleteStore)
+router.route('/:product_id')
+    .get(productsController.getProduct)
+    .delete(productsController.deleteProduct)
+
 
 module.exports = router;

@@ -8,7 +8,13 @@ import inventoryimg from './../../img/inventory.png';
 class Dashboard extends Component {
     render() {
         return (
-            <div className="dash_wrapper">
+            <div className="wrapper">
+                <div className="jumbotron jumbotron-fluid jumbotron_local">
+                    <div className="container">
+                        <h1 className="display-4">Welcome to Fiesta!</h1>
+                        <p className="lead">An inventory management app for stores that sell party supplies.</p>
+                    </div>
+                </div>
                 <div className="options">
                     <Link to='/stores'>
                         <div className="card">
@@ -29,6 +35,7 @@ class Dashboard extends Component {
                         </div>
                     </Link>
                 </div>
+
             </div>
         )
     }

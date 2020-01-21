@@ -3,15 +3,6 @@ import { Link } from 'react-router-dom';
 import './style.css';
 
 class Stores extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userLoggedIn: false
-        }
-        // this.handleDeleteStore = this.handleDeleteStore.bind(this);
-    }
-
-
     render() {
         let stores = this.props.stores.map(store => (
             <div key={store.id} className="stores_row">

@@ -11,15 +11,10 @@ class ViewStore extends Component {
             store_name: '',
             store_products: [],
             store_id: '',
-            product_id: '',
             quantity: '',
             local_price: '',
             comments: '',
-            userCommentField: '',
-            isStoreEmpty: true,
-            selected_id: '',
-            isOn:{}
-
+            isStoreEmpty: true
         }
         this.getProducts = this.getProducts.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
@@ -57,10 +52,10 @@ class ViewStore extends Component {
         let toggleObj = this.state.store_products.map(inventory => (inventory.id:false ))
     }
 
-    handleDelete = async (event, id) => {
+    handleDelete = (event, id) => {
         event.preventDefault();
 
-        // handle the deletion of a store entry in the DB
+        // handle the deletion of a store's product entry in the DB
         axios.delete(`http://localhost:3001/api/inventory/${id}`, { headers: { 'Accept': 'application/json' } })
             .then(response => {
                 //remove it from store products
@@ -77,59 +72,19 @@ class ViewStore extends Component {
             this.state.store_products.map(inventory => (
                 <div className="store_row" key={inventory.inventory_id}>
                     <div className="store_col">
-                        {/* <input
-                            className="checkbox"
-                            type="checkbox"
-                            onChange={(e) => this.handleCheckbox(e)}
-                            name={inventory.product_name}
-                            // value={false}
-                            id={inventory.inventory_id}
-                            // checked={this.value}
-                        /> */}
                         {inventory.product_name}
                     </div>
                     <div className="store_col">
                         ${inventory.local_price.toFixed(2)}
-                        {/* <input
-                            type="text"
-                            value={this.state.newPrice}
-                            onChange={this.handlePriceChange}
-                            className="input_field"
-                            id={"price_" + inventory.inventory_id}
-                            aria-describedby="newPrice"
-                            placeholder="Enter new price"
-                        /> */}
                     </div>
                     <div className="store_col">
                         {inventory.quantity}
-                        {/* <input
-                            type="text"
-                            value={this.state.newQty}
-                            onChange={this.handleQtyChange}
-                            className="input_field"
-                            id={"qty_" + inventory.inventory_id}
-                            aria-describedby="newQuantity"
-                            placeholder="Enter new qty"
-                        /> */}
                     </div>
                     <div className="store_col">
                     {inventory.comment} 
-                    {/* <textarea
-                        className="text_area"
-                        id={"comment_" + inventory.inventory_id}
-                        name={'comment_' + inventory.inventory_id}
-                        maxLength={200}
-                        value={this.state.comment}
-                        onChange={this.handleCommentChange}
-                        placeholder={inventory.comment} 
-                        /> */}
-
                     </div>
-                   
-
                     <div id="action_btn_block">
-                        {/* <button onClick={(e) => this.handleUpdate(e, inventory.inventory_id)} type="submit" className="btn btn-outline-primary action_btn">Update</button> */}
-                        <div id="add_btn_store"><Link to={`/inventory/${inventory.inventory_id}`}><button className="btn btn-outline-primary action_btn">Update</button></Link></div>
+                        <div id="add_btn_store"><Link to={`/inventory/${inventory.inventory_id}/${inventory.store_id}`}><button className="btn btn-outline-primary action_btn">Update</button></Link></div>
                         <button onClick={(e) => this.handleDelete(e, inventory.inventory_id)} type="submit" className="btn btn-outline-danger action_btn">Delete</button>
                     </div>
                 </div>
@@ -154,7 +109,7 @@ class ViewStore extends Component {
                 <h2 className="header">Store Details Page</h2>
                 <h3>Store Name: {this.state.store_name}</h3>
                 <div id="add_btn_store"><Link to={`/products/add/${this.state.store_name}/${this.state.store_id}`}><button className="btn btn-outline-primary action_btn_store">Add New Store Product</button></Link></div>
-                {this.state.isStoreEmpty ? <div>*** This store does not have any products associated. Please <Link to={`/products/add/${this.state.store_name}/${this.state.store_id}`}>add</Link> some merchandise. *** </div> : storeDetailsForm}
+                {this.state.isStoreEmpty ? <div>*** This store does not have any products associated. Please <Link to={`/products/add/${this.state.store_name}/${this.state.store_id}`}>add</Link> some merchandise or <Link to={`/stores`}>return</Link> to the stores page. *** </div> : storeDetailsForm}
             </div>
         )
     }

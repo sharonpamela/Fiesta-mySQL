@@ -10,6 +10,15 @@ module.exports = {
             }
             res.json(stores);
         });
+
+        // const query = `SELECT * FROM stores;`;
+        // sql.query(query, (err, stores) => {
+        //     if (err) {
+        //         console.log(stores)
+        //         return res.status(404).send(err);
+        //     }
+        //     res.json(stores);
+        // });
     },
     createStore: (req, res) => {
         console.log(req.body)
@@ -41,12 +50,22 @@ module.exports = {
     },
     deleteStore: (req, res) => {
         const { storeId } = req.params;
-        const query = `DELETE FROM stores WHERE ?`;
-        connection.query(query, { id: storeId }, (err, result) => {
+
+        // need to delete all of the inventory entries from this store first
+        const query = `DELETE FROM inventory WHERE ?`;
+        connection.query(query, { store_id: storeId }, (err, result) => {
             if (err) {
                 return res.status(404).send(err);
             }
-            res.json(result);
+            // delete the store second
+            const query = `DELETE FROM stores WHERE ?`;
+            connection.query(query, { id: storeId }, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(404).send(err);
+                }
+                res.json(result);
+            });
         });
     },
     getStoreProducts: (req, res) => {

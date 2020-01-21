@@ -9,6 +9,7 @@ class UpdateInventoryProduct extends Component {
         super(props);
         this.state = {
             inventory_id: '',
+            store_id:'',
             product_name: '',
             product_price: '',
             product_qty: '',
@@ -21,8 +22,8 @@ class UpdateInventoryProduct extends Component {
 
     componentDidMount() {
         const { inventory_id } = this.props.match.params;
-        this.setState({ inventory_id: inventory_id });
-        // this.getProductInfo();
+        const { store_id } = this.props.match.params;
+        this.setState({ inventory_id: inventory_id, store_id: store_id });
 
         axios.get(`http://localhost:3001/api/inventory/${inventory_id}`)
             .then(response => {
@@ -33,7 +34,6 @@ class UpdateInventoryProduct extends Component {
                     product_qty: response.data[0].quantity,
                     product_comment: response.data[0].comment
                 });
-
             })
             .catch(e => {
                 console.log(e);
@@ -45,7 +45,6 @@ class UpdateInventoryProduct extends Component {
         let name = e.target.name;
         this.setState(prevState => ({
             ...prevState, [name]: value
-
         }), () => console.log(this.state))
     }
 
@@ -77,14 +76,13 @@ class UpdateInventoryProduct extends Component {
         }
 
         if (product_name !== '' && product_price !== '' && this.isValidFloat(product_price) === true && product_qty !== '') {
-
             try {
                 // update the product 
                 const product_insert_response = await axios.put(`http://localhost:3001/api/inventory/${inventory_id}`, { inventory_id:inventory_id, product_name: product_name, local_price: product_price, product_quantity:product_qty, product_comment: product_comment }, { headers: { 'Accept': 'application/json' } });
                 if (product_insert_response.status === 200) {
                     swal("Success!", "The product has been updated!", "info")
                     .then((value) => {
-                        window.location.href = "/stores"
+                        window.location.href = `/stores/products/${this.state.store_id}`
                     })
                 }
             } catch (e) {
@@ -100,18 +98,6 @@ class UpdateInventoryProduct extends Component {
                 <form className="container-fluid" encType="multipart/form-data">
                     <h2 className="header">Update Product</h2>
                     <h3>Product Name: {this.state.product_name}</h3>
-                    {/* <div className="add_row">
-                        <label>Product Name (*): </label>
-                        <input
-                            name={"product_name"}
-                            type="text"
-                            id="product_name"
-                            className="form-control"
-                            onChange={(e) => this.handleInputChange(e)}
-                            value={this.state.product_name || ''}
-                            required
-                        />
-                    </div> */}
                     <div className="add_row">
                         <label>Product Price  (*):</label>
                         <input
@@ -120,7 +106,7 @@ class UpdateInventoryProduct extends Component {
                             className="form-control"
                             name={"product_price"}
                             onChange={(e) => this.handleInputChange(e)}
-                            value={this.state.product_price || ''}
+                            value={this.state.product_price || '0.00'}
                             required
                         />
                     </div>
@@ -149,7 +135,7 @@ class UpdateInventoryProduct extends Component {
                     </div>
                     <div className="add_store_action_btn_block">
                         <button onClick={this.handleSubmit} className="btn btn-outline-primary action_btn">Submit</button>
-                        <Link to={`/stores`}><button className="btn btn-outline-danger action_btn">Cancel</button></Link>
+                        <Link to={`/stores/products/${this.state.store_id}`}><button className="btn btn-outline-danger action_btn">Cancel</button></Link>
                     </div>
                 </form>
             </div>

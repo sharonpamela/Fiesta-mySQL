@@ -34,6 +34,10 @@
     display: block;
 }
 
+.jumbotron_local {
+    margin-top:2%;
+}
+
 @media screen and (max-width: 800px) {
     .options {
       flex-direction: column;

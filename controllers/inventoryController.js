@@ -2,9 +2,22 @@ const connection = require('./../config/connection');
 
 module.exports = {
     getInventory: (req, res) => {
-
         // const query = `select a.id, b.product_name product_name, c.store_name store_name, quantity from inventory a join products b join stores c on a.product_id = b.id && a.store_id = c.id;`
-        const query = `select a.id, a.product_id, a.store_id, b.product_name, c.store_name, quantity from inventory a join products b join stores c on a.product_id = b.id && a.store_id = c.id;`
+        const query = `
+        SELECT 
+        a.id, 
+        a.product_id, 
+        a.store_id, 
+        a.comment,
+        b.product_name, 
+        c.store_name, 
+        quantity 
+        FROM 
+        inventory a 
+        join products b 
+        join stores c 
+        ON 
+        a.product_id = b.id && a.store_id = c.id;`
 
         connection.query(query, (err, inventory) => {
             if (err) {
@@ -89,16 +102,6 @@ module.exports = {
                 return res.status(404).send(err);
             }
             res.json(result);
-        });
-
-
-        // const query = `DELETE FROM inventory WHERE ?`;
-        // console.log("about to delete "+inventory_id)
-        // connection.query(query, { id: inventory_id }, (err, result) => {
-        //     if (err) {
-        //         return res.status(404).send(err);
-        //     }
-        //     res.json(result);
-        // });
+        })
     }
 };
