@@ -4,7 +4,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'db_passwd',
+    password: 'nutanix/4u',
     database: 'inventoryManagement'
 });
 
@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 //     user: 'administrator',
 //     password: 'nutanix/4u',
 //     server: '10.42.101.54\\Fiesta-DB', 
-//     database: 'inventoryManagement' 
+//     database: 'Fiesta-DB' 
 // };
 
 // // connect to your database
