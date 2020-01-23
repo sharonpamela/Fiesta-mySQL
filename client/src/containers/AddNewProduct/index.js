@@ -79,7 +79,7 @@ class AddProductToStore extends Component {
         if (product_name !== '' && product_price !== '' && this.isValidFloat(product_price) === true && product_qty !== '') {
             try {
                  // add the new product to the products table
-                product_insert_response = await axios.post(`http://localhost:3001/api/products`, { product_name: product_name, product_price: product_price, product_image_url: product_img_url, product_comment: product_comment }, { headers: { 'Accept': 'application/json' } });
+                product_insert_response = await axios.post(`/api/products`, { product_name: product_name, product_price: product_price, product_image_url: product_img_url, product_comment: product_comment }, { headers: { 'Accept': 'application/json' } });
                 if (product_insert_response.status === 200) {
                     swal("Success!", "A new product has been added!", "info")
                     .then((value) => {

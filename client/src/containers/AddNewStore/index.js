@@ -51,7 +51,7 @@ class AddNewStore extends Component {
 
         if (storeName !== '' && storeCity !== '' && storeState !== '') {
             // handle the submission of the form data to the database
-            axios.post('http://localhost:3001/api/stores', { store_name: storeName, store_city: storeCity, store_state: storeState }, { headers: { 'Accept': 'application/json' } })
+            axios.post('/api/stores', { store_name: storeName, store_city: storeCity, store_state: storeState }, { headers: { 'Accept': 'application/json' } })
                 .then(response => {
                     console.log(response)
                     if (response.status === 200) {

@@ -1,13 +1,16 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-    host: 'localhost',
+    // host: 'localhost',
+    host: '10.45.100.136',
     port: 3306,
     user: 'root',
     password: 'nutanix/4u',
-    database: 'inventoryManagement'
+    // database: 'inventoryManagement'
+    database: 'FiestaDB'
 });
 
+module.exports = connection;
 // const sql = require('mssql');
 // // config for your database
 // var config = {
@@ -17,7 +20,7 @@ const connection = mysql.createConnection({
 //     database: 'Fiesta-DB' 
 // };
 
-// // connect to your database
+// connect to your database
 // sql.connect(config, function (err) {
 
 //     if (err) console.log(err);
@@ -26,7 +29,7 @@ const connection = mysql.createConnection({
 //     var request = new sql.Request();
        
 //     // query to the database and get the records
-//     request.query('select * from Student', function (err, recordset) {
+//     request.query('select * from stores', function (err, recordset) {
         
 //         if (err) console.log(err)
 
@@ -70,6 +73,5 @@ const connection = mysql.createConnection({
 // }
 
 
-module.exports = connection;
 
 // sqlcmd -S 127.0.0.1 -U sa -P your_password -Q "SELECT @@VERSION"

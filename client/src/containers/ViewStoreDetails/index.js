@@ -56,7 +56,7 @@ class ViewStore extends Component {
         event.preventDefault();
 
         // handle the deletion of a store's product entry in the DB
-        axios.delete(`http://localhost:3001/api/inventory/${id}`, { headers: { 'Accept': 'application/json' } })
+        axios.delete(`/api/inventory/${id}`, { headers: { 'Accept': 'application/json' } })
             .then(response => {
                 //remove it from store products
                 let updatedProducts = this.state.store_products.filter(prod => prod.inventory_id !== id)

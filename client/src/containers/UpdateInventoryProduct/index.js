@@ -25,7 +25,7 @@ class UpdateInventoryProduct extends Component {
         const { store_id } = this.props.match.params;
         this.setState({ inventory_id: inventory_id, store_id: store_id });
 
-        axios.get(`http://localhost:3001/api/inventory/${inventory_id}`)
+        axios.get(`/api/inventory/${inventory_id}`)
             .then(response => {
                 console.log(response)
                 this.setState({
@@ -78,7 +78,7 @@ class UpdateInventoryProduct extends Component {
         if (product_name !== '' && product_price !== '' && this.isValidFloat(product_price) === true && product_qty !== '') {
             try {
                 // update the product 
-                const product_insert_response = await axios.put(`http://localhost:3001/api/inventory/${inventory_id}`, { inventory_id:inventory_id, product_name: product_name, local_price: product_price, product_quantity:product_qty, product_comment: product_comment }, { headers: { 'Accept': 'application/json' } });
+                const product_insert_response = await axios.put(`/api/inventory/${inventory_id}`, { inventory_id:inventory_id, product_name: product_name, local_price: product_price, product_quantity:product_qty, product_comment: product_comment }, { headers: { 'Accept': 'application/json' } });
                 if (product_insert_response.status === 200) {
                     swal("Success!", "The product has been updated!", "info")
                     .then((value) => {
