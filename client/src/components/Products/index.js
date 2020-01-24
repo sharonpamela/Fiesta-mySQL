@@ -28,7 +28,7 @@ class Products extends Component {
                 <div className="prod_row_header">
                     <h3>Image</h3>
                     <h3>Name</h3>
-                    <h3>Suggested Retail Price</h3>
+                    <h3>Unit Cost</h3>
                     <h3>Comment</h3>
                     <h3>Action</h3>
                 </div>

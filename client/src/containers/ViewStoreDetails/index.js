@@ -48,10 +48,6 @@ class ViewStore extends Component {
         }
     }
 
-    toggleState = () => {
-        let toggleObj = this.state.store_products.map(inventory => (inventory.id:false ))
-    }
-
     handleDelete = (event, id) => {
         event.preventDefault();
 
@@ -61,6 +57,10 @@ class ViewStore extends Component {
                 //remove it from store products
                 let updatedProducts = this.state.store_products.filter(prod => prod.inventory_id !== id)
                 this.setState({ store_products: updatedProducts })
+                // if no products are left in store, then set isStoreEmpty back to true
+                if (updatedProducts.length <= 0) {
+                    this.setState({ isStoreEmpty: true});
+                }
             })
             .catch(e => {
                 console.log(e);
