@@ -24,8 +24,10 @@ npm run build
 ```
 
 ## Run App
+```
 cd ~/Fiesta-mySQL
 npm start
+```
 
 ## Access App
 http//:localhost:3001
