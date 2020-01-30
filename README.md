@@ -25,7 +25,7 @@ npm run build
 ## Database info
 ```
 The database schema and sample data the app expects is described in the following file:
-FiestaDB-mySL.sql
+~/Fiesta-mySQL/seeders/FiestaDB-mySL.sql
 ```
 ## Run App
 ```
